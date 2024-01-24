@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Models\Listing;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// All Listings
 Route::get('/', function () {
-    return view('welcome');
+    return view('listings', [
+        'heading' => 'Latest Listings',
+        'listings' => Listing::all()
+    ]);
 });
+
+// Single Listing
+Route::get('/listing/{id}', function ($id) {
+    return view('listing', [
+        'id' => $id,
+        'heading' => 'Listing ' . $id,
+        'listing' => Listing::find($id)
+    ]);
+})->where('id', '[0-9]+');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/hello', function () {
 //     return response('<h1>Error</h1>', 200)
